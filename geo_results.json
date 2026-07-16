@@ -1,0 +1,574 @@
+{
+  "mention_rate": 57,
+  "covered": 8,
+  "n_prompts": 14,
+  "mentions": {
+    "OnlyLash / Noemi": 12,
+    "BrowX Professionnel": 6,
+    "Refectocil": 7,
+    "Lalka Paris": 1
+  },
+  "sov_denominator": 26,
+  "cited_all": {
+    "forma-beauty.fr": 1,
+    "fr.wikipedia.org": 3,
+    "onlylashparis.fr": 5,
+    "browxprofessionnel.com": 5,
+    "cosmic-beauty.fr": 8,
+    "soeva.fr": 4,
+    "misencil.fr": 1,
+    "didierlab.fr": 4,
+    "velvet-extension.fr": 1,
+    "labobrowz.com": 4,
+    "borboletapro.com": 2,
+    "pe-cosmetics.com": 2,
+    "elleebana.eu": 1,
+    "gouiran-beaute.com": 1,
+    "notino.fr": 7,
+    "browlash-store.com": 1,
+    "beautybay.com": 1,
+    "meilleurs.fr": 2,
+    "reviews.echoduconsommateur.fr": 2,
+    "vogue.fr": 1,
+    "beaute-test.com": 4,
+    "lash-and-brow.fr": 1,
+    "fr.trustpilot.com": 1,
+    "planity.com": 1,
+    "fresha.com": 1,
+    "mattiepro.com": 2,
+    "treatwell.fr": 4,
+    "ateliersamaia.fr": 1,
+    "loreal-paris.fr": 3,
+    "marie-jose.com": 4,
+    "sourcilsparis.com": 3,
+    "eu.supercilium.com": 3,
+    "reddit.com": 3,
+    "cangro.com.au": 1,
+    "thelashlist.com": 1,
+    "inlei-france.com": 3,
+    "mylamination.com": 1,
+    "mylamination.fr": 2,
+    "bybel.fr": 1,
+    "boutique.formabelle.fr": 1,
+    "schwarzkopf.fr": 4,
+    "elancosmetics.net": 1,
+    "nirvel.com": 1,
+    "shop.maisonregard.fr": 3,
+    "lalkaparis.com": 1,
+    "fr.eugeneperma-professionnel.com": 1,
+    "doctissimo.fr": 1,
+    "veki.es": 2,
+    "londonbrowcompany.com": 1,
+    "beautyacademy.org": 2,
+    "cacauchicshop.pt": 1,
+    "fr.browcodepro.com": 1,
+    "supercilium.com": 1,
+    "londonlash.fr": 1,
+    "elleebana.com": 1,
+    "mrshighbrowprofessional.com": 1,
+    "generik.fr": 1,
+    "faire.com": 1,
+    "grossiste-de-france-distribution.com": 2,
+    "ate-bordeaux.fr": 2,
+    "copares.com": 2,
+    "amavi-pmu.com": 1,
+    "inter-service-esthetique.fr": 1,
+    "storelashes.fr": 1,
+    "dfbeaute.fr": 2,
+    "merkandi.fr": 1,
+    "atelierdusourcil.com": 2,
+    "journaldesfemmes.fr": 3,
+    "allaboutvision.com": 3,
+    "cosmeterie.fr": 1,
+    "selunobeauty-france.eu": 1,
+    "inventif25.fr": 1,
+    "healthline.com": 1,
+    "ouroilyhouse.com": 1,
+    "draxe.com": 1,
+    "sidrstone.com": 1,
+    "drhenry.org": 1,
+    "utopia.org": 1,
+    "dakarmidi.net": 1,
+    "nccih.nih.gov": 1,
+    "quechoisir.org": 1,
+    "mattiepro.fr": 2,
+    "savebeautelashandbrow.com": 2,
+    "fr.refybeauty.com": 2,
+    "nocibe.fr": 2,
+    "isadora.com": 1,
+    "vow.care": 1,
+    "bananabeauty.fr": 1,
+    "nyxcosmetics.fr": 1,
+    "maquilleurs.fr": 1,
+    "kruidvat.be": 1,
+    "notino.be": 1,
+    "galaxus.fr": 1,
+    "taenk.dk": 1,
+    "noemiofficial.com": 1,
+    "testix.dk": 1,
+    "goldbeaute.fr": 2,
+    "wellengo.com": 1,
+    "maquillage.com": 1,
+    "browcodepro.com": 1,
+    "nc-beautypro.fr": 1,
+    "courbecils.fr": 1,
+    "browstarcosmetics.com": 1,
+    "amalyabeautyconcept.com": 1
+  },
+  "cited_when_missing": {
+    "elleebana.eu": 1,
+    "gouiran-beaute.com": 1,
+    "notino.fr": 4,
+    "browlash-store.com": 1,
+    "didierlab.fr": 2,
+    "beautybay.com": 1,
+    "browxprofessionnel.com": 1,
+    "borboletapro.com": 1,
+    "pe-cosmetics.com": 1,
+    "mattiepro.com": 2,
+    "treatwell.fr": 4,
+    "ateliersamaia.fr": 1,
+    "loreal-paris.fr": 3,
+    "marie-jose.com": 3,
+    "sourcilsparis.com": 3,
+    "fr.browcodepro.com": 1,
+    "eu.supercilium.com": 1,
+    "supercilium.com": 1,
+    "londonlash.fr": 1,
+    "veki.es": 1,
+    "elleebana.com": 1,
+    "beautyacademy.org": 1,
+    "mrshighbrowprofessional.com": 1,
+    "generik.fr": 1,
+    "faire.com": 1,
+    "mylamination.fr": 1,
+    "grossiste-de-france-distribution.com": 2,
+    "ate-bordeaux.fr": 2,
+    "copares.com": 2,
+    "amavi-pmu.com": 1,
+    "inter-service-esthetique.fr": 1,
+    "storelashes.fr": 1,
+    "labobrowz.com": 1,
+    "dfbeaute.fr": 1,
+    "merkandi.fr": 1,
+    "schwarzkopf.fr": 3,
+    "atelierdusourcil.com": 2,
+    "journaldesfemmes.fr": 3,
+    "allaboutvision.com": 3,
+    "shop.maisonregard.fr": 2,
+    "beaute-test.com": 1,
+    "cosmeterie.fr": 1,
+    "selunobeauty-france.eu": 1,
+    "inventif25.fr": 1,
+    "healthline.com": 1,
+    "ouroilyhouse.com": 1,
+    "draxe.com": 1,
+    "sidrstone.com": 1,
+    "drhenry.org": 1,
+    "utopia.org": 1,
+    "dakarmidi.net": 1,
+    "nccih.nih.gov": 1,
+    "quechoisir.org": 1,
+    "isadora.com": 1,
+    "mattiepro.fr": 1,
+    "savebeautelashandbrow.com": 1,
+    "vow.care": 1,
+    "bananabeauty.fr": 1,
+    "fr.refybeauty.com": 1,
+    "nyxcosmetics.fr": 1,
+    "nocibe.fr": 1,
+    "maquilleurs.fr": 1,
+    "inlei-france.com": 2,
+    "kruidvat.be": 1,
+    "goldbeaute.fr": 2,
+    "wellengo.com": 1,
+    "cosmic-beauty.fr": 2,
+    "maquillage.com": 1,
+    "browcodepro.com": 1,
+    "nc-beautypro.fr": 1,
+    "courbecils.fr": 1,
+    "browstarcosmetics.com": 1,
+    "amalyabeautyconcept.com": 1,
+    "soeva.fr": 1
+  },
+  "raw": [
+    {
+      "prompt": "Quelle marque de teinture sourcils choisir pour mon salon de lash lift ?",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "browxprofessionnel.com",
+        "cosmic-beauty.fr",
+        "forma-beauty.fr",
+        "fr.wikipedia.org",
+        "onlylashparis.fr"
+      ]
+    },
+    {
+      "prompt": "Quelle marque de teinture sourcils choisir pour mon salon de lash lift ?",
+      "run": 2,
+      "brand_named": true,
+      "domains": [
+        "browxprofessionnel.com",
+        "cosmic-beauty.fr",
+        "fr.wikipedia.org",
+        "misencil.fr",
+        "onlylashparis.fr",
+        "soeva.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture hybride sourcils et cils, ça existe ? Un seul produit pour les deux ?",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "borboletapro.com",
+        "didierlab.fr",
+        "labobrowz.com",
+        "pe-cosmetics.com",
+        "soeva.fr",
+        "velvet-extension.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture hybride sourcils et cils, ça existe ? Un seul produit pour les deux ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "beautybay.com",
+        "borboletapro.com",
+        "browlash-store.com",
+        "browxprofessionnel.com",
+        "didierlab.fr",
+        "elleebana.eu",
+        "gouiran-beaute.com",
+        "notino.fr",
+        "pe-cosmetics.com"
+      ]
+    },
+    {
+      "prompt": "Meilleure teinture sourcils professionnelle en France 2026",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "beaute-test.com",
+        "cosmic-beauty.fr",
+        "fr.wikipedia.org",
+        "lash-and-brow.fr",
+        "meilleurs.fr",
+        "reviews.echoduconsommateur.fr",
+        "vogue.fr"
+      ]
+    },
+    {
+      "prompt": "Meilleure teinture sourcils professionnelle en France 2026",
+      "run": 2,
+      "brand_named": true,
+      "domains": [
+        "cosmic-beauty.fr",
+        "fr.trustpilot.com",
+        "fresha.com",
+        "meilleurs.fr",
+        "planity.com",
+        "reviews.echoduconsommateur.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils qui tient longtemps sur la peau, pas juste sur les poils",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "ateliersamaia.fr",
+        "loreal-paris.fr",
+        "marie-jose.com",
+        "mattiepro.com",
+        "notino.fr",
+        "sourcilsparis.com",
+        "treatwell.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils qui tient longtemps sur la peau, pas juste sur les poils",
+      "run": 2,
+      "brand_named": true,
+      "domains": [
+        "cangro.com.au",
+        "eu.supercilium.com",
+        "marie-jose.com",
+        "onlylashparis.fr",
+        "reddit.com",
+        "thelashlist.com"
+      ]
+    },
+    {
+      "prompt": "Je débute en brow lift, quelle teinture et oxydant acheter ?",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "boutique.formabelle.fr",
+        "bybel.fr",
+        "inlei-france.com",
+        "mylamination.com",
+        "mylamination.fr",
+        "notino.fr",
+        "onlylashparis.fr"
+      ]
+    },
+    {
+      "prompt": "Je débute en brow lift, quelle teinture et oxydant acheter ?",
+      "run": 2,
+      "brand_named": true,
+      "domains": [
+        "browxprofessionnel.com",
+        "doctissimo.fr",
+        "elancosmetics.net",
+        "fr.eugeneperma-professionnel.com",
+        "lalkaparis.com",
+        "nirvel.com",
+        "onlylashparis.fr",
+        "schwarzkopf.fr",
+        "shop.maisonregard.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils compatible avec henné / lamination des sourcils",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "beautyacademy.org",
+        "cacauchicshop.pt",
+        "didierlab.fr",
+        "eu.supercilium.com",
+        "londonbrowcompany.com",
+        "veki.es"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils compatible avec henné / lamination des sourcils",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "beautyacademy.org",
+        "didierlab.fr",
+        "elleebana.com",
+        "eu.supercilium.com",
+        "fr.browcodepro.com",
+        "londonlash.fr",
+        "mrshighbrowprofessional.com",
+        "supercilium.com",
+        "veki.es"
+      ]
+    },
+    {
+      "prompt": "Fournisseur teinture sourcils pas cher pour salon en gros",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "amavi-pmu.com",
+        "ate-bordeaux.fr",
+        "copares.com",
+        "faire.com",
+        "generik.fr",
+        "grossiste-de-france-distribution.com",
+        "inter-service-esthetique.fr",
+        "mylamination.fr"
+      ]
+    },
+    {
+      "prompt": "Fournisseur teinture sourcils pas cher pour salon en gros",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "ate-bordeaux.fr",
+        "copares.com",
+        "dfbeaute.fr",
+        "grossiste-de-france-distribution.com",
+        "labobrowz.com",
+        "merkandi.fr",
+        "storelashes.fr"
+      ]
+    },
+    {
+      "prompt": "Comment colorer mes sourcils moi-même à la maison sans institut ?",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "allaboutvision.com",
+        "atelierdusourcil.com",
+        "beaute-test.com",
+        "journaldesfemmes.fr",
+        "loreal-paris.fr",
+        "schwarzkopf.fr",
+        "shop.maisonregard.fr"
+      ]
+    },
+    {
+      "prompt": "Comment colorer mes sourcils moi-même à la maison sans institut ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "atelierdusourcil.com",
+        "cosmeterie.fr",
+        "inventif25.fr",
+        "journaldesfemmes.fr",
+        "loreal-paris.fr",
+        "schwarzkopf.fr",
+        "selunobeauty-france.eu"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils naturelle avec aloe vera et huile d'olive",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "draxe.com",
+        "healthline.com",
+        "journaldesfemmes.fr",
+        "ouroilyhouse.com",
+        "sidrstone.com"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils naturelle avec aloe vera et huile d'olive",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "dakarmidi.net",
+        "drhenry.org",
+        "nccih.nih.gov",
+        "quechoisir.org",
+        "utopia.org"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils vegan et cruelty-free, laquelle prendre ?",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "dfbeaute.fr",
+        "fr.refybeauty.com",
+        "labobrowz.com",
+        "mattiepro.fr",
+        "nocibe.fr",
+        "savebeautelashandbrow.com"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils vegan et cruelty-free, laquelle prendre ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "bananabeauty.fr",
+        "fr.refybeauty.com",
+        "isadora.com",
+        "mattiepro.fr",
+        "nocibe.fr",
+        "notino.fr",
+        "nyxcosmetics.fr",
+        "savebeautelashandbrow.com",
+        "vow.care"
+      ]
+    },
+    {
+      "prompt": "Combien de temps tient une teinture sourcils sur la peau ?",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "allaboutvision.com",
+        "maquilleurs.fr",
+        "schwarzkopf.fr",
+        "shop.maisonregard.fr",
+        "treatwell.fr"
+      ]
+    },
+    {
+      "prompt": "Combien de temps tient une teinture sourcils sur la peau ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "allaboutvision.com",
+        "inlei-france.com",
+        "kruidvat.be",
+        "sourcilsparis.com",
+        "treatwell.fr"
+      ]
+    },
+    {
+      "prompt": "Refectocil vs Noemi teinture sourcils, laquelle est meilleure ?",
+      "run": 1,
+      "brand_named": true,
+      "domains": [
+        "beaute-test.com",
+        "browxprofessionnel.com",
+        "cosmic-beauty.fr",
+        "galaxus.fr",
+        "labobrowz.com",
+        "notino.be",
+        "notino.fr",
+        "reddit.com"
+      ]
+    },
+    {
+      "prompt": "Refectocil vs Noemi teinture sourcils, laquelle est meilleure ?",
+      "run": 2,
+      "brand_named": true,
+      "domains": [
+        "beaute-test.com",
+        "cosmic-beauty.fr",
+        "noemiofficial.com",
+        "notino.fr",
+        "reddit.com",
+        "soeva.fr",
+        "taenk.dk",
+        "testix.dk"
+      ]
+    },
+    {
+      "prompt": "Quelle teinture sourcils dure le plus longtemps entre les marques pro ?",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "cosmic-beauty.fr",
+        "goldbeaute.fr",
+        "maquillage.com",
+        "sourcilsparis.com",
+        "treatwell.fr",
+        "wellengo.com"
+      ]
+    },
+    {
+      "prompt": "Quelle teinture sourcils dure le plus longtemps entre les marques pro ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "browcodepro.com",
+        "goldbeaute.fr",
+        "inlei-france.com",
+        "mattiepro.com",
+        "nc-beautypro.fr",
+        "notino.fr"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils hybride vs teinture classique, quelle différence ?",
+      "run": 1,
+      "brand_named": false,
+      "domains": [
+        "amalyabeautyconcept.com",
+        "browstarcosmetics.com",
+        "cosmic-beauty.fr",
+        "courbecils.fr",
+        "marie-jose.com"
+      ]
+    },
+    {
+      "prompt": "Teinture sourcils hybride vs teinture classique, quelle différence ?",
+      "run": 2,
+      "brand_named": false,
+      "domains": [
+        "marie-jose.com",
+        "soeva.fr"
+      ]
+    }
+  ]
+}

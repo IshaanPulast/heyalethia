@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alethia — GEO Visibility</title>
+<style>
+  :root{
+    --paper:#F4EFE6;--card:#FBF8F1;--ink:#1C1B18;--ink-soft:#5B584F;--line:#E2DACB;
+    --clay:#B0603F;--clay-soft:#EBD9CF;--good:#5E7355;--good-soft:#DEE6D6;--gap:#A8503F;--gap-soft:#F0D9D1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;padding:40px 24px 80px}
+  .wrap{max-width:1120px;margin:0 auto}
+
+  .top{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:28px}
+  .brandmark{font-weight:800;letter-spacing:-.02em;font-size:15px;text-transform:uppercase}
+  .brandmark span{color:var(--clay)}
+  .who{text-align:right}
+  .who .name{font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .who .meta{font-size:13px;color:var(--ink-soft)}
+
+  /* two-column split: data left, actions right */
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:26px;align-items:start}
+  .data-col{position:sticky;top:24px;display:flex;flex-direction:column;gap:14px}
+  .col-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 2px 2px}
+
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .metric.lead{border-color:var(--ink);border-width:1.5px}
+  .metric-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .metric-name{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft)}
+  .metric-tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:-.01em}
+  .metric-tag.warn{background:var(--gap-soft);color:var(--gap)}
+  .metric-tag.mid{background:var(--clay-soft);color:var(--clay)}
+  .metric-tag.ok{background:var(--good-soft);color:var(--good)}
+  .metric-val{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:.92;margin-top:12px}
+  .metric-val small{font-size:22px;color:var(--ink-soft);font-weight:700}
+  .metric-read{font-size:13px;color:var(--ink-soft);margin-top:12px;line-height:1.45}
+  .metric-read b{color:var(--ink);font-weight:800}
+
+  .track{position:relative;height:10px;background:var(--clay-soft);border-radius:5px;margin-top:16px}
+  .track > i{display:block;height:100%;width:31%;background:var(--clay);border-radius:5px}
+  .track .band{position:absolute;top:0;bottom:0;left:70%;right:0;background:var(--good-soft);border-radius:0 5px 5px 0;border-left:2px dashed var(--good)}
+  .track-key{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--ink-soft);margin-top:7px}
+  .track-key .strong{color:var(--good)}
+
+  /* visibility score breakdown */
+  .vs-break{display:flex;margin-top:16px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+  .vs-cell{flex:1;padding:11px 8px;text-align:center;border-right:1px solid var(--line)}
+  .vs-cell:last-child{border-right:none}
+  .vc-n{font-size:17px;font-weight:800;letter-spacing:-.02em}
+  .vc-l{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-top:4px}
+  .vs-cap{font-size:11.5px;color:var(--ink-soft);margin-top:9px;text-align:center}
+
+  /* position rank dots */
+  .rank{display:flex;gap:5px;margin-top:16px}
+  .rank i{flex:1;height:9px;border-radius:4px;background:var(--line)}
+  .rank i.above{background:var(--ink);opacity:.28}
+  .rank i.you{background:var(--clay)}
+  .rank-key{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--ink-soft);margin-top:7px}
+
+  /* sentiment bar + chips */
+  .sent{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:16px;gap:2px}
+  .sent i{height:100%}
+  .sent .pos{background:var(--good)}
+  .sent .neu{background:var(--line)}
+  .sent .neg{background:var(--gap)}
+  .sent-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .schip{font-size:11.5px;font-weight:800;letter-spacing:-.01em;padding:5px 10px;border-radius:20px}
+  .schip.up{background:var(--good-soft);color:var(--good)}
+  .schip.down{background:var(--gap-soft);color:var(--gap)}
+  .schip.none{background:var(--card);border:1px solid var(--line);color:var(--ink-soft)}
+  .schip-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:14px 0 8px}
+
+  /* share of voice inside position card */
+  .sov{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+  .sov-head{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px}
+  .sov-name{color:var(--ink-soft)}
+  .sov-row.you .sov-name{color:var(--ink);font-weight:800}
+  .sov-pct{color:var(--ink-soft);font-weight:800}
+  .sov-row.you .sov-pct{color:var(--clay)}
+  .sov-track{height:7px;border-radius:4px;background:var(--line);overflow:hidden}
+  .sov-track > i{display:block;height:100%;background:var(--ink);opacity:.26;border-radius:4px}
+  .sov-row.you .sov-track > i{background:var(--clay);opacity:1}
+
+  /* sampling basis */
+  .basis{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:-8px 2px 26px;max-width:70ch}
+  .basis b{color:var(--ink);font-weight:700}
+  .basis-label{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--clay);margin-right:8px}
+
+  /* bottleneck callout */
+  .bottleneck{background:var(--ink);color:var(--paper);border-radius:14px;padding:20px 22px;margin-bottom:22px}
+  .bl-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#E0A184;margin-bottom:9px}
+  .bl-headline{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.32}
+  .bl-headline b{color:#E9AC8B}
+  .bl-sub{font-size:13px;color:rgba(244,239,230,.68);margin-top:9px;line-height:1.5}
+
+  /* actions column */
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 2px 14px}
+  .sec-head h2{font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .sec-head .hint{font-size:12.5px;color:var(--ink-soft);text-align:right}
+
+  .plan{display:flex;flex-direction:column;gap:10px;margin-bottom:34px}
+  .step{display:grid;grid-template-columns:38px 1fr auto;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .step.open-gap{border-color:var(--good-soft)}
+  .step-n{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .step.open-gap .step-n{background:var(--good)}
+  .step-main .move{font-weight:800;font-size:15.5px;letter-spacing:-.01em}
+  .step-main .src{font-size:12px;color:var(--clay);margin-top:2px;word-break:break-all}
+  .step-main .src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+  .step-qs{margin-top:11px}
+  .step-qs-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:6px}
+  .step-q{font-size:13.5px;font-weight:600;color:var(--ink);padding-left:15px;position:relative;margin-top:4px;letter-spacing:-.01em}
+  .step-q::before{content:"";position:absolute;left:1px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--clay)}
+  .step.open-gap .step-q::before{background:var(--good)}
+  .tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+  .sig{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;border-radius:20px}
+  .sig.share{background:var(--card);border:1px solid var(--line);color:var(--ink-soft)}
+  .sig.eff{background:var(--card);border:1px solid var(--line);color:var(--ink-soft)}
+  .sig.open{background:var(--good-soft);color:var(--good)}
+  .step-act{display:flex;align-items:center;gap:16px}
+  .step-impact{text-align:right;line-height:1.1}
+  .step-impact .lvl{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--clay)}
+  .step-impact.med .lvl{color:var(--ink-soft)}
+  .step-impact .u{display:block;font-size:11px;font-weight:700;color:var(--ink-soft);margin-top:3px}
+  .plan-note{margin-top:2px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.55}
+  .plan-note b{color:var(--ink);font-weight:800}
+
+  .qlist{display:flex;flex-direction:column;gap:9px}
+  .qrow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+  .qrow .q{font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--ink)}
+  .pill{display:inline-block;font-size:12px;font-weight:800;padding:5px 11px;border-radius:20px;letter-spacing:-.01em}
+  .pill.in{background:var(--good-soft);color:var(--good)}
+  .qmore{font-size:13px;color:var(--ink-soft);padding:8px 4px 0}
+
+  .ask{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--clay);background:none;border:1px solid var(--clay-soft);border-radius:8px;cursor:pointer;padding:8px 12px;letter-spacing:-.01em}
+  .ask:hover{background:var(--clay-soft)}
+
+  .foot{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-soft)}
+  .foot .method{max-width:62ch;margin:10px auto 0;line-height:1.5}
+
+  /* drawer */
+  .scrim{position:fixed;inset:0;background:rgba(28,27,24,.32);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:40}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:420px;max-width:92vw;background:var(--card);border-left:1px solid var(--line);box-shadow:-16px 0 40px rgba(28,27,24,.12);transform:translateX(102%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:50;display:flex;flex-direction:column}
+  .drawer.open{transform:translateX(0)}
+  .drawer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:22px 22px 16px;border-bottom:1px solid var(--line)}
+  .drawer-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--clay)}
+  .drawer-title{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:3px}
+  .drawer-x{background:var(--paper);border:1px solid var(--line);width:30px;height:30px;border-radius:8px;font-size:18px;line-height:1;cursor:pointer;color:var(--ink-soft);flex-shrink:0}
+  .drawer-x:hover{color:var(--ink)}
+  .drawer-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+  .msg{font-size:14px;line-height:1.55;border-radius:12px;padding:12px 15px;max-width:92%}
+  .msg.bot{background:var(--paper);border:1px solid var(--line);align-self:flex-start;color:var(--ink)}
+  .msg.bot b{display:block;margin-bottom:4px}
+  .msg.bot p{margin:0 0 7px}
+  .msg.bot p:last-child{margin:0}
+  .msg.user{background:var(--ink);color:var(--paper);align-self:flex-end;font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 22px 14px}
+  .chip{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:7px 13px;cursor:pointer;letter-spacing:-.01em}
+  .chip:hover{border-color:var(--clay);color:var(--clay)}
+  .drawer-input{display:flex;gap:8px;padding:14px 22px 20px;border-top:1px solid var(--line)}
+  .drawer-input input{flex:1;font-family:inherit;font-size:14px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+  .drawer-input input:focus{outline:none;border-color:var(--clay)}
+  .drawer-input button{font-family:inherit;font-weight:800;font-size:14px;color:var(--paper);background:var(--ink);border:none;border-radius:10px;padding:0 16px;cursor:pointer}
+
+  @media(max-width:820px){
+    .layout{grid-template-columns:1fr}
+    .data-col{position:static}
+    .step{grid-template-columns:34px 1fr}
+    .step-act{grid-column:2;justify-content:space-between}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brandmark">Aleth<span>ia</span> · GEO Visibility</div>
+    <div class="who">
+      <div class="name">OnlyLash Paris</div>
+      <div class="meta">Noemi brow tint · last 30 days</div>
+    </div>
+  </div>
+
+  <div class="basis">
+    Based on the <b>14 questions</b> French salon pros and shoppers really ask AI about brow tint, run through <b>ChatGPT with web search</b>, twice each. Live sample, July 2026.
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: DATA -->
+    <div class="data-col">
+      <div class="col-label">Where you stand</div>
+
+      <!-- Visibility score -->
+      <div class="metric lead">
+        <div class="metric-top">
+          <span class="metric-name">Visibility score</span>
+          <span class="metric-tag ok">Category leader</span>
+        </div>
+        <div class="metric-val">63<small>/100</small></div>
+        <div class="vs-break">
+          <div class="vs-cell"><div class="vc-n">57%</div><div class="vc-l">Shows up</div></div>
+          <div class="vs-cell"><div class="vc-n">46%</div><div class="vc-l">Share of voice</div></div>
+          <div class="vs-cell"><div class="vc-n">Positive</div><div class="vc-l">Tone</div></div>
+        </div>
+        <div class="vs-cap">Averaged from mention rate, share of voice and tone.</div>
+        <div class="metric-read">You <b>lead your category</b> in AI answers. The score isn't higher only because you're absent from <b>6 of 14</b> questions, all consumer or generic ones.</div>
+      </div>
+
+      <!-- Share of voice -->
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-name">Share of voice</span>
+          <span class="metric-tag ok">You lead</span>
+        </div>
+        <div class="metric-val">1st<small> of 5</small></div>
+        <div class="schip-label">Share of category answers</div>
+        <div class="sov">
+          <div class="sov-row you"><div class="sov-head"><span class="sov-name">OnlyLash / Noemi (you)</span><span class="sov-pct">46%</span></div><div class="sov-track"><i style="width:46%"></i></div></div>
+          <div class="sov-row"><div class="sov-head"><span class="sov-name">Refectocil</span><span class="sov-pct">27%</span></div><div class="sov-track"><i style="width:27%"></i></div></div>
+          <div class="sov-row"><div class="sov-head"><span class="sov-name">BrowX Professionnel</span><span class="sov-pct">23%</span></div><div class="sov-track"><i style="width:23%"></i></div></div>
+          <div class="sov-row"><div class="sov-head"><span class="sov-name">Lalka Paris</span><span class="sov-pct">4%</span></div><div class="sov-track"><i style="width:4%"></i></div></div>
+          <div class="sov-row"><div class="sov-head"><span class="sov-name">BB Brows Paris</span><span class="sov-pct">0%</span></div><div class="sov-track"><i style="width:0%"></i></div></div>
+        </div>
+        <div class="metric-read">When brands get named, you take the <b>biggest share</b>, ahead of Refectocil and BrowX. You own the professional questions.</div>
+      </div>
+
+      <!-- How you're described -->
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-name">How you're described</span>
+        </div>
+        <div class="schip-label">What AI praises</div>
+        <div class="sent-chips">
+          <span class="schip up">Longue tenue</span>
+          <span class="schip up">Teintes originales</span>
+          <span class="schip up">Gel nourrissant</span>
+          <span class="schip up">Compatible techniques</span>
+        </div>
+        <div class="schip-label">Any criticism?</div>
+        <div class="sent-chips">
+          <span class="schip none">None found in this run</span>
+        </div>
+        <div class="metric-read">Across every answer that named you, AI described you <b>positively</b> with <b>no recurring complaint</b>. Rare, and worth protecting.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: ACTIONS -->
+    <div class="actions-col">
+
+      <div class="bottleneck">
+        <div class="bl-label">Where to grow next</div>
+        <div class="bl-headline">You already win the professional questions. <b>You disappear on everyday shopper questions</b> like home use, natural ingredients, and how long tint lasts.</div>
+        <div class="bl-sub">Those answers pull from retailer and consumer pages you're not on yet. Get on these four and you cover what you're missing. Start with number 1.</div>
+      </div>
+
+      <div class="sec-head">
+        <h2>Cover the questions you're missing</h2>
+        <div class="hint">One page can win several questions.<br>Top of the list adds the most reach.</div>
+      </div>
+
+      <div class="plan">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-main">
+            <div class="move">Get listed and reviewed on Notino</div>
+            <div class="src"><a href="https://www.notino.fr" target="_blank" rel="noopener">notino.fr</a> — big French beauty retailer</div>
+            <div class="step-qs">
+              <div class="step-qs-label">Helps you show up for</div>
+              <div class="step-q">"Combien de temps tient une teinture sourcils sur la peau ?"</div>
+              <div class="step-q">"Teinture sourcils naturelle avec aloe vera et huile d'olive"</div>
+            </div>
+            <div class="tags">
+              <span class="sig share">Cited in 7 answers</span>
+              <span class="sig eff">Retailer listing</span>
+            </div>
+          </div>
+          <div class="step-act">
+            <div class="step-impact"><span class="lvl">High</span><span class="u">est. lift</span></div>
+            <button class="ask" data-page="Notino (notino.fr)">Ask how &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step open-gap">
+          <div class="step-n">2</div>
+          <div class="step-main">
+            <div class="move">Get featured in a Journal des Femmes brow guide</div>
+            <div class="src"><a href="https://www.journaldesfemmes.fr/beaute/conseils-maquillage/2691787-teinture-des-sourcils-a-la-maison-en-institut-avant-apres-ce-qu-il-faut-savoir/" target="_blank" rel="noopener">journaldesfemmes.fr</a> — consumer beauty media</div>
+            <div class="step-qs">
+              <div class="step-qs-label">Helps you show up for</div>
+              <div class="step-q">"Comment colorer mes sourcils moi-même à la maison ?"</div>
+              <div class="step-q">"Teinture sourcils vegan et cruelty-free, laquelle prendre ?"</div>
+            </div>
+            <div class="tags">
+              <span class="sig share">Cited in 3 answers, rising</span>
+              <span class="sig open">Open, you're not there yet</span>
+              <span class="sig eff">Outreach / PR</span>
+            </div>
+          </div>
+          <div class="step-act">
+            <div class="step-impact"><span class="lvl">High</span><span class="u">est. lift</span></div>
+            <button class="ask" data-page="Journal des Femmes (journaldesfemmes.fr)">Ask how &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-main">
+            <div class="move">Get into a specialist comparison guide</div>
+            <div class="src"><a href="https://www.sourcilsparis.com/post/teinture-des-sourcils-pour-qui-pourquoi-comment" target="_blank" rel="noopener">sourcilsparis.com</a> — specialist brow-tint guide</div>
+            <div class="step-qs">
+              <div class="step-qs-label">Helps you show up for</div>
+              <div class="step-q">"Quelle teinture sourcils dure le plus longtemps entre les marques pro ?"</div>
+              <div class="step-q">"Teinture sourcils hybride vs classique, quelle différence ?"</div>
+            </div>
+            <div class="tags">
+              <span class="sig share">Cited in 3 answers</span>
+              <span class="sig eff">Content</span>
+            </div>
+          </div>
+          <div class="step-act">
+            <div class="step-impact med"><span class="lvl">Medium</span><span class="u">est. lift</span></div>
+            <button class="ask" data-page="the sourcilsparis.com comparison guide">Ask how &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-main">
+            <div class="move">Get listed with a salon wholesale distributor</div>
+            <div class="src"><a href="https://grossiste-de-france-distribution.com/product/lot-de-5-soit-2-50e-lunite-henne-professionnel-pour-sourcils-coloration-noir/" target="_blank" rel="noopener">grossiste-de-france-distribution.com</a> — salon suppliers</div>
+            <div class="step-qs">
+              <div class="step-qs-label">Helps you show up for</div>
+              <div class="step-q">"Fournisseur teinture sourcils pas cher pour salon en gros"</div>
+            </div>
+            <div class="tags">
+              <span class="sig share">Cited in 2 answers</span>
+              <span class="sig eff">Outreach</span>
+            </div>
+          </div>
+          <div class="step-act">
+            <div class="step-impact med"><span class="lvl">Small</span><span class="u">est. lift</span></div>
+            <button class="ask" data-page="the salon wholesale distributor">Ask how &rarr;</button>
+          </div>
+        </div>
+
+        <div class="plan-note">
+          <b>These are estimates, not promises.</b> We rank the moves by how much they tend to help, but nobody can guarantee a score. Assistants keep changing how they pick sources, and changes usually take 3 to 6 months to show. Work top down and treat this as your priority order.
+        </div>
+
+      </div>
+
+      <div class="sec-head">
+        <h2>Questions you already win</h2>
+        <div class="hint">Where you're named today.<br>Keep these pages strong.</div>
+      </div>
+
+      <div class="qlist">
+        <div class="qrow">
+          <span class="q">"Meilleure teinture sourcils professionnelle en France 2026"</span>
+          <span class="pill in">Named</span>
+        </div>
+        <div class="qrow">
+          <span class="q">"Quelle marque de teinture choisir pour mon salon de lash lift ?"</span>
+          <span class="pill in">Named</span>
+        </div>
+        <div class="qmore">Plus 6 more, mostly professional and salon questions. The 6 you're missing are all consumer or generic, and covered by the steps above.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    Live sample: 14 questions run through ChatGPT with web search, twice each, July 2026. Numbers and pages are real from that run. A single snapshot moves as AI answers change.
+    <div class="method">"Cited in N answers" means ChatGPT listed that page as a source in N of the 28 answers we collected. It shows where AI draws from, it does not claim the page alone caused a mention.</div>
+  </div>
+
+</div>
+
+<!-- ACTION ASSISTANT -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-top">
+    <div>
+      <div class="drawer-kicker">Action assistant</div>
+      <div class="drawer-title" id="dTitle">Getting cited</div>
+    </div>
+    <button class="drawer-x" id="dClose" aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-body" id="dBody"></div>
+  <div class="chips" id="dChips"></div>
+  <div class="drawer-input">
+    <input id="dInput" type="text" placeholder="Type your own question..." />
+    <button id="dSend">Send</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var page="this page";
+  var scrim=document.getElementById('scrim'),drawer=document.getElementById('drawer');
+  var body=document.getElementById('dBody'),chipWrap=document.getElementById('dChips'),input=document.getElementById('dInput');
+  var qa=[
+    {q:"How do I get cited here?",a:"<b>Three moves, in order</b><p>1. Find the editor or author of {page} and reach them directly. A short email beats a form.</p><p>2. Give them a reason to add you: a test unit, a clear result, or a number rivals can't claim.</p><p>3. Follow up once after two weeks. That's usually what closes it.</p>"},
+    {q:"What should it say about us?",a:"<b>Lead with one sharp, checkable claim</b><p>Assistants repeat specific facts, not adjectives. “Hybrid tint for brows and lashes, up to 6 weeks on skin” gets picked up. “Premium quality” gets ignored.</p><p>Name who it's best for (lash-lift salons, brow-lift beginners) so the assistant matches you to the right question.</p>"},
+    {q:"How long should the article be?",a:"<b>Short and factual</b><p>For a page like {page}, aim for a 120 to 200 word entry per product.</p><p>One line on who it's for, one on the hero ingredient, one on price. Assistants pull tight blurbs, not essays.</p>"},
+    {q:"Show me an example pitch",a:"<b>Copy, adjust, send</b><p>“Bonjour [name], j'ai lu votre article {page}. Nous fabriquons Noemi par OnlyLash Paris, une teinture hybride cils et sourcils qui tient jusqu'à 6 semaines sur la peau, utilisée en salon. Je peux vous envoyer un kit et nos résultats pour votre prochaine mise à jour. Merci.”</p>"}
+  ];
+  function fill(t){return t.replace(/\{page\}/g,page);}
+  function addMsg(cls,html){var d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;body.appendChild(d);body.scrollTop=body.scrollHeight;}
+  function renderChips(){chipWrap.innerHTML='';qa.forEach(function(item){var b=document.createElement('button');b.className='chip';b.textContent=item.q;b.onclick=function(){addMsg('user',item.q);setTimeout(function(){addMsg('bot',fill(item.a));},160);};chipWrap.appendChild(b);});}
+  function open(p){page=p;document.getElementById('dTitle').textContent='Getting into '+p;body.innerHTML='';addMsg('bot',"Ask me anything about getting cited in "+p+". Pick a question below or type your own.");renderChips();scrim.classList.add('open');drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');}
+  function close(){scrim.classList.remove('open');drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');}
+  document.querySelectorAll('.ask').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();open(btn.getAttribute('data-page'));});});
+  document.getElementById('dClose').addEventListener('click',close);
+  scrim.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  function send(){var v=input.value.trim();if(!v)return;addMsg('user',v);input.value='';setTimeout(function(){addMsg('bot',"<b>In the live version I'll answer this from your store's own data.</b><p>For this demo, tap one of the suggested questions.</p>");},160);}
+  document.getElementById('dSend').addEventListener('click',send);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+})();
+</script>
+</body>
+</html>
