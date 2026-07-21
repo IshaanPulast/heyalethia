@@ -12,8 +12,11 @@
   .client { text-align:right; }
   .client h1 { margin:0; font-size:26px; }
   .client p { margin:2px 0 0; color:#6b6459; }
-  .intro { color:#4a453e; max-width:760px; margin-bottom:32px; line-height:1.5; }
+  .intro { color:#4a453e; max-width:760px; margin-bottom:24px; line-height:1.5; }
   .intro b { color:#1a1815; }
+  .ask-hero { background:#fff; border:2px solid #d9713c; border-radius:8px; padding:24px; margin-bottom:36px; }
+  .ask-hero-label { text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#d9713c; font-weight:800; margin-bottom:6px; }
+  .ask-hero h2 { margin:0 0 14px; font-size:20px; }
   .grid { display:grid; grid-template-columns:1fr 1.4fr; gap:24px; }
   .card { background:#fff; border:1px solid #1a1815; border-radius:6px; padding:28px; margin-bottom:24px; }
   .label { text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#6b6459; font-weight:700; }
@@ -49,6 +52,8 @@
   .bottleneck-box b { color:#e79b6f; }
   #askInput { flex:1; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; }
   #askBtn { background:#d9713c; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
+  #articleInput { width:100%; min-height:120px; margin-top:8px; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; font-family:inherit; box-sizing:border-box; }
+  #compareBtn { margin-top:8px; background:#211d19; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -65,8 +70,22 @@
   <div class="intro">
     Based on <b>12 questions</b> real carpet-tile buyers and installers ask AI about carpet tape,
     run through <b>ChatGPT (GPT-4o) with web search</b>, twice each. Live sample, July 2026.
-    Full answers and sources below, plus a live box to ask your own question and see where the
-    bottleneck is, right now.
+  </div>
+
+  <div class="ask-hero">
+    <div class="ask-hero-label">Try it yourself, live</div>
+    <h2>Ask any question and see if All Flooring Now shows up</h2>
+    <div style="display:flex; gap:10px;">
+      <input id="askInput" type="text" placeholder="e.g. best tape for stair carpet installation">
+      <button id="askBtn">Ask</button>
+    </div>
+    <div id="askResult" class="qa-body"></div>
+    <div id="compareBox" style="display:none; margin-top:16px; border-top:1px solid #eee2d0; padding-top:16px;">
+      <b>Have an article on this topic? Paste it below to see exactly what's missing:</b>
+      <textarea id="articleInput" placeholder="Paste your article text here..."></textarea>
+      <button id="compareBtn">Check my content</button>
+      <div id="compareResult" class="qa-body"></div>
+    </div>
   </div>
 
   <div class="grid">
@@ -123,15 +142,6 @@
   <h3 class="section">Every question, full answer &amp; sources</h3>
   <div id="qaList"></div>
 
-  <h3 class="section">Ask a new question, live</h3>
-  <div class="card">
-    <div style="display:flex; gap:10px;">
-      <input id="askInput" type="text" placeholder="e.g. best tape for stair carpet installation">
-      <button id="askBtn">Ask</button>
-    </div>
-    <div id="askResult" class="qa-body"></div>
-  </div>
-
 </div>
 
 <script type="application/json" id="geo-data">
@@ -175,11 +185,16 @@
     list.appendChild(det);
   });
 
+  let lastQuestion = '';
+
   document.getElementById('askBtn').addEventListener('click', async () => {
     const q = document.getElementById('askInput').value.trim();
+    lastQuestion = q;
     const out = document.getElementById('askResult');
+    const compareBox = document.getElementById('compareBox');
     if (!q) return;
     out.innerHTML = "Asking GPT-4o with web search...";
+    compareBox.style.display = 'none';
     try {
       const r = await fetch('/api/ask', {
         method: 'POST',
@@ -201,6 +216,29 @@
         <p>${res.text}</p>
         ${bottleneck}
         <div class="qa-sources"><b>Sources:</b><br>${sources || 'none cited'}</div>`;
+
+      if (!res.brand_named) {
+        compareBox.style.display = 'block';
+      }
+    } catch(e) {
+      out.textContent = "Error: " + e;
+    }
+  });
+
+  document.getElementById('compareBtn').addEventListener('click', async () => {
+    const article = document.getElementById('articleInput').value.trim();
+    const out = document.getElementById('compareResult');
+    if (!article || !lastQuestion) return;
+    out.textContent = "Analyzing your content...";
+    try {
+      const r = await fetch('/api/compare', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ question: lastQuestion, article })
+      });
+      const res = await r.json();
+      if (res.error) { out.textContent = "Error: " + res.error; return; }
+      out.innerHTML = `<p>${res.analysis.replace(/\n/g, '<br>')}</p>`;
     } catch(e) {
       out.textContent = "Error: " + e;
     }
