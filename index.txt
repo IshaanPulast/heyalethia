@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alethia — GEO Visibility</title>
+<style>
+  body { margin:0; background:#f2ede2; font-family:-apple-system,Helvetica,Arial,sans-serif; color:#1a1815; }
+  .wrap { max-width:1100px; margin:0 auto; padding:48px 32px; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #1a1815; padding-bottom:20px; margin-bottom:24px; }
+  .brand { font-weight:800; font-size:22px; letter-spacing:0.5px; }
+  .brand span { color:#d9713c; }
+  .client { text-align:right; }
+  .client h1 { margin:0; font-size:26px; }
+  .client p { margin:2px 0 0; color:#6b6459; }
+  .intro { color:#4a453e; max-width:760px; margin-bottom:32px; line-height:1.5; }
+  .intro b { color:#1a1815; }
+  .grid { display:grid; grid-template-columns:1fr 1.4fr; gap:24px; }
+  .card { background:#fff; border:1px solid #1a1815; border-radius:6px; padding:28px; margin-bottom:24px; }
+  .label { text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#6b6459; font-weight:700; }
+  .pill { background:#dcead9; color:#2f5c34; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; }
+  .big { font-size:56px; font-weight:800; margin:10px 0; }
+  .big small { font-size:22px; color:#6b6459; font-weight:600; }
+  .stats3 { display:flex; gap:14px; margin:18px 0; }
+  .stat { background:#f2ede2; border-radius:6px; padding:14px; flex:1; text-align:center; }
+  .stat b { font-size:22px; display:block; }
+  .stat span { font-size:11px; text-transform:uppercase; color:#6b6459; }
+  .note { color:#4a453e; font-size:14px; line-height:1.5; margin-top:14px; }
+  .dark { background:#211d19; color:#fff; border-radius:6px; padding:28px; }
+  .dark .label { color:#d9713c; }
+  .dark h2 { font-size:24px; line-height:1.4; margin:10px 0; }
+  .dark h2 span { color:#e79b6f; }
+  .dark p { color:#b8b2a8; font-size:14px; }
+  .sov-row { display:flex; justify-content:space-between; margin:10px 0 4px; font-size:14px; }
+  .bar-bg { background:#eee6d8; border-radius:6px; height:10px; margin-bottom:16px; }
+  .bar-fill { background:#d9713c; height:10px; border-radius:6px; }
+  .bar-fill.grey { background:#b8b2a8; }
+  h3.section { font-size:24px; margin:36px 0 16px; }
+  ul.cited { list-style:none; padding:0; margin:0; }
+  ul.cited li { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #eee2d0; font-size:14px; }
+  ul.cited b { color:#d9713c; margin-right:8px; }
+  .win-list li { margin-bottom:6px; font-size:14px; }
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="brand">ALETH<span>IA</span> · GEO VISIBILITY</div>
+    <div class="client">
+      <h1>All Flooring Now</h1>
+      <p>Carpet Tile Tape · last 30 days</p>
+    </div>
+  </div>
+
+  <div class="intro">
+    Based on the <b>12 questions</b> real carpet-tile buyers and installers ask AI about carpet
+    tape, run through <b>ChatGPT with web search</b>, twice each. Live sample, July 2026.
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="label">Where you stand</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="big">67<small>/100</small></div>
+          <span class="pill">Category leader</span>
+        </div>
+        <div class="stats3">
+          <div class="stat"><b>67%</b><span>Shows up</span></div>
+          <div class="stat"><b>68%</b><span>Share of voice</span></div>
+          <div class="stat"><b>Positive</b><span>Tone</span></div>
+        </div>
+        <div class="note">
+          You <b>lead your category</b> against XFasten (68% vs 32% share of voice, 15 vs 7
+          mentions across 24 responses). The score isn't higher only because you're absent from
+          <b>4 of 12</b> questions — mostly installation and outdoor-use questions.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Share of voice</div>
+        <div class="big" style="font-size:40px;">1st<small style="font-size:18px;">of 2</small></div>
+        <div class="sov-row"><span>All Flooring Now (you)</span><span>68%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:68%;"></div></div>
+        <div class="sov-row"><span>XFasten</span><span>32%</span></div>
+        <div class="bar-bg"><div class="bar-fill grey" style="width:32%;"></div></div>
+      </div>
+    </div>
+
+    <div class="dark">
+      <div class="label">Where to grow next</div>
+      <h2>You already win the direct comparison and product questions, including "cheap
+        alternatives" searches. <span>You disappear on installation and outdoor-use
+        questions</span> — concrete floors, artificial turf, and indoor/outdoor installs.</h2>
+      <p>Those answers pull from Home Depot, 3M, Kraus Flooring, Mapei, and Lowe's pages you're
+      not cited on yet. Closing the top two gets you into most of what you're missing.</p>
+    </div>
+  </div>
+
+  <h3 class="section">Cover the questions you're missing</h3>
+  <div class="cols2">
+    <div class="card">
+      <b>Get listed / reviewed on Home Depot</b><br>
+      <span style="color:#d9713c;">homedepot.com</span> — cited 6x where you're missing, your single biggest gap
+      <div class="note">Helps you show up for: "Best tape for indoor outdoor carpet installation",
+      "How to install carpet tiles on concrete floor"</div>
+    </div>
+    <div class="card">
+      <b>Get a mention on a flooring-install guide (Kraus / Mapei / FlooringInc)</b><br>
+      <span style="color:#d9713c;">krausflooring.com · cdnmedia.mapei.com · flooringinc.com</span> — cited 2x each
+      <div class="note">Helps you show up for: "Carpet tape for outdoor artificial turf
+      installation", installation guides generally</div>
+    </div>
+  </div>
+
+  <h3 class="section">Top cited pages (all answers)</h3>
+  <ul class="cited">
+    <li><span><b>15x</b> allflooringnow.com (you)</span></li>
+    <li><span><b>8x</b> homedepot.com</span></li>
+    <li><span><b>7x</b> amazon.com</span></li>
+    <li><span><b>5x</b> xfasten.com</span></li>
+    <li><span><b>4x</b> tesa.com</span></li>
+    <li><span><b>2x</b> carpettilesnextday.co.uk</span></li>
+    <li><span><b>2x</b> directhardware.com.au</span></li>
+    <li><span><b>2x</b> walmart.com</span></li>
+  </ul>
+
+  <h3 class="section">Questions you already win</h3>
+  <ul class="win-list">
+    <li>+ Best double sided carpet tape for carpet tiles</li>
+    <li>+ How do I stick carpet tiles down without glue</li>
+    <li>+ XFasten vs All Flooring Now carpet tape, which is better</li>
+    <li>+ Strongest double sided tape for carpet tile squares</li>
+    <li>+ Best carpet tape that doesn't damage flooring</li>
+    <li>+ 2 inch vs 4 inch carpet tape, which do I need</li>
+    <li>+ How long does double sided carpet tape last</li>
+    <li>+ Cheap carpet tape alternatives that actually work</li>
+  </ul>
+
+</div>
+</body>
+</html>
