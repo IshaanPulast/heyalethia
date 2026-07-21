@@ -186,16 +186,31 @@
 </script>
 
 <script>
-  const data = JSON.parse(document.getElementById('geo-data').textContent);
+ const data = JSON.parse(document.getElementById('geo-data').textContent);
   const list = document.getElementById('qaList');
+
+  function extractUrls(text) {
+    const urls = new Set();
+    const linkPattern = /\]\((https?:\/\/[^\s)]+)\)/g;
+    let match;
+    while ((match = linkPattern.exec(text)) !== null) {
+      urls.add(match[1]);
+    }
+    return Array.from(urls);
+  }
+
   data.raw.forEach(row => {
     const det = document.createElement('details');
     det.className = 'qa';
     const tagClass = row.brand_named ? 'win' : 'miss';
     const tagText = row.brand_named ? 'NAMED' : 'MISSING';
+    const urls = extractUrls(row.answer_text);
+    const sourcesHtml = urls.length
+      ? urls.map(u => `<a href="${u}" target="_blank">${u}</a>`).join('')
+      : row.domains.map(d => `<a href="https://${d}" target="_blank">${d}</a>`).join('');
     det.innerHTML = `<summary>${row.prompt}<span class="tag ${tagClass}">${tagText}</span></summary>
       <div class="qa-body">${row.answer_text.replace(/</g,'&lt;')}</div>
-      <div class="qa-sources">${row.domains.map(d => `<a href="https://${d}" target="_blank">${d}</a>`).join('')}</div>`;
+      <div class="qa-sources">${sourcesHtml}</div>`;
     list.appendChild(det);
   });
 
