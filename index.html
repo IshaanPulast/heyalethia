@@ -94,7 +94,7 @@
 
   <div class="ask-hero" style="border-color:#211d19;">
     <div class="ask-hero-label" style="color:#211d19;">Keep the conversation going</div>
-    <h2>Chat with GPT-4o about anything on this topic</h2>
+    <h2>Chat with Alethia about anything on this topic</h2>
     <div id="chatLog" style="max-height:400px; overflow-y:auto; margin-bottom:12px;"></div>
     <div style="display:flex; gap:10px;">
       <input id="chatInput" type="text" placeholder="Type a follow-up question...">
@@ -264,7 +264,7 @@
   function renderChat() {
     chatLog.innerHTML = chatHistory.map(m => `
       <div class="chat-msg ${m.role}">
-        <div class="who">${m.role === 'user' ? 'You' : 'AI'}</div>
+        <div class="who">${m.role === 'user' ? 'You' : 'Alethia'}</div>
         <div class="bubble">${m.content.replace(/</g,'&lt;')}</div>
         ${m.sources && m.sources.length ? `<div class="qa-sources">${m.sources.map(u => `<a href="${u}" target="_blank">${u}</a>`).join('')}</div>` : ''}
       </div>`).join('');
