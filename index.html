@@ -45,6 +45,8 @@
   .qa-body { margin-top:14px; font-size:14px; line-height:1.6; color:#3a352e; white-space:pre-wrap; }
   .qa-sources { margin-top:12px; font-size:13px; }
   .qa-sources a { color:#d9713c; text-decoration:none; margin-right:10px; display:inline-block; }
+  .bottleneck-box { background:#211d19; color:#fff; border-radius:6px; padding:16px; margin-top:12px; font-size:14px; line-height:1.5; }
+  .bottleneck-box b { color:#e79b6f; }
   #askInput { flex:1; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; }
   #askBtn { background:#d9713c; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
 </style>
@@ -63,7 +65,8 @@
   <div class="intro">
     Based on <b>12 questions</b> real carpet-tile buyers and installers ask AI about carpet tape,
     run through <b>ChatGPT (GPT-4o) with web search</b>, twice each. Live sample, July 2026.
-    Full answers and sources below, plus a live box to ask your own question right now.
+    Full answers and sources below, plus a live box to ask your own question and see where the
+    bottleneck is, right now.
   </div>
 
   <div class="grid">
@@ -176,7 +179,7 @@
     const q = document.getElementById('askInput').value.trim();
     const out = document.getElementById('askResult');
     if (!q) return;
-    out.textContent = "Asking GPT-4o with web search...";
+    out.innerHTML = "Asking GPT-4o with web search...";
     try {
       const r = await fetch('/api/ask', {
         method: 'POST',
@@ -185,8 +188,19 @@
       });
       const res = await r.json();
       if (res.error) { out.textContent = "Error: " + res.error; return; }
+
+      const tag = res.brand_named
+        ? `<span class="tag win">NAMED</span>`
+        : `<span class="tag miss">MISSING</span>`;
+      const bottleneck = res.bottleneck
+        ? `<div class="bottleneck-box"><b>Bottleneck found:</b><br>${res.bottleneck}</div>`
+        : '';
       const sources = (res.sources || []).map(u => `<a href="${u}" target="_blank" style="color:#d9713c;margin-right:10px;">${u}</a>`).join('');
-      out.innerHTML = `<p>${res.text}</p><div class="qa-sources"><b>Sources:</b><br>${sources || 'none cited'}</div>`;
+
+      out.innerHTML = `<div style="margin-bottom:10px;">${tag}</div>
+        <p>${res.text}</p>
+        ${bottleneck}
+        <div class="qa-sources"><b>Sources:</b><br>${sources || 'none cited'}</div>`;
     } catch(e) {
       out.textContent = "Error: " + e;
     }
