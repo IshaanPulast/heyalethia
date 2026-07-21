@@ -14,7 +14,7 @@
   .client p { margin:2px 0 0; color:#6b6459; }
   .intro { color:#4a453e; max-width:760px; margin-bottom:24px; line-height:1.5; }
   .intro b { color:#1a1815; }
-  .ask-hero { background:#fff; border:2px solid #d9713c; border-radius:8px; padding:24px; margin-bottom:36px; }
+  .ask-hero { background:#fff; border:2px solid #d9713c; border-radius:8px; padding:24px; margin-bottom:24px; }
   .ask-hero-label { text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#d9713c; font-weight:800; margin-bottom:6px; }
   .ask-hero h2 { margin:0 0 14px; font-size:20px; }
   .grid { display:grid; grid-template-columns:1fr 1.4fr; gap:24px; }
@@ -50,10 +50,14 @@
   .qa-sources a { color:#d9713c; text-decoration:none; margin-right:10px; display:inline-block; }
   .bottleneck-box { background:#211d19; color:#fff; border-radius:6px; padding:16px; margin-top:12px; font-size:14px; line-height:1.5; }
   .bottleneck-box b { color:#e79b6f; }
-  #askInput { flex:1; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; }
-  #askBtn { background:#d9713c; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
+  #askInput, #chatInput { flex:1; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; }
+  #askBtn, #chatBtn { background:#d9713c; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
   #articleInput { width:100%; min-height:120px; margin-top:8px; padding:10px; border:1px solid #1a1815; border-radius:6px; font-size:14px; font-family:inherit; box-sizing:border-box; }
   #compareBtn { margin-top:8px; background:#211d19; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
+  .chat-msg { margin-bottom:14px; }
+  .chat-msg .who { font-size:11px; font-weight:800; text-transform:uppercase; color:#6b6459; margin-bottom:4px; }
+  .chat-msg.user .who { color:#d9713c; }
+  .chat-msg .bubble { font-size:14px; line-height:1.6; white-space:pre-wrap; }
 </style>
 </head>
 <body>
@@ -82,9 +86,19 @@
     <div id="askResult" class="qa-body"></div>
     <div id="compareBox" style="display:none; margin-top:16px; border-top:1px solid #eee2d0; padding-top:16px;">
       <b>Have an article on this topic? Paste it below to see exactly what's missing:</b>
-      <textarea id="articleInput" placeholder="Paste your article text here..."></textarea>
+      <textarea id="articleInput" placeholder="Paste your article text (or its URL) here..."></textarea>
       <button id="compareBtn">Check my content</button>
       <div id="compareResult" class="qa-body"></div>
+    </div>
+  </div>
+
+  <div class="ask-hero" style="border-color:#211d19;">
+    <div class="ask-hero-label" style="color:#211d19;">Keep the conversation going</div>
+    <h2>Chat with GPT-4o about anything on this topic</h2>
+    <div id="chatLog" style="max-height:400px; overflow-y:auto; margin-bottom:12px;"></div>
+    <div style="display:flex; gap:10px;">
+      <input id="chatInput" type="text" placeholder="Type a follow-up question...">
+      <button id="chatBtn">Send</button>
     </div>
   </div>
 
@@ -242,6 +256,50 @@
     } catch(e) {
       out.textContent = "Error: " + e;
     }
+  });
+
+  const chatHistory = [];
+  const chatLog = document.getElementById('chatLog');
+
+  function renderChat() {
+    chatLog.innerHTML = chatHistory.map(m => `
+      <div class="chat-msg ${m.role}">
+        <div class="who">${m.role === 'user' ? 'You' : 'AI'}</div>
+        <div class="bubble">${m.content.replace(/</g,'&lt;')}</div>
+        ${m.sources && m.sources.length ? `<div class="qa-sources">${m.sources.map(u => `<a href="${u}" target="_blank">${u}</a>`).join('')}</div>` : ''}
+      </div>`).join('');
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  document.getElementById('chatBtn').addEventListener('click', async () => {
+    const input = document.getElementById('chatInput');
+    const q = input.value.trim();
+    if (!q) return;
+    chatHistory.push({ role: 'user', content: q });
+    renderChat();
+    input.value = '';
+
+    try {
+      const r = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ messages: chatHistory.map(m => ({ role: m.role, content: m.content })) })
+      });
+      const res = await r.json();
+      if (res.error) {
+        chatHistory.push({ role: 'assistant', content: 'Error: ' + res.error });
+      } else {
+        chatHistory.push({ role: 'assistant', content: res.text, sources: res.sources });
+      }
+      renderChat();
+    } catch(e) {
+      chatHistory.push({ role: 'assistant', content: 'Error: ' + e });
+      renderChat();
+    }
+  });
+
+  document.getElementById('chatInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('chatBtn').click();
   });
 </script>
 </body>
