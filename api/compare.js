@@ -6,11 +6,33 @@ export default async function handler(req, res) {
   const key = process.env.OPENROUTER_API_KEY;
   if (!key) return res.status(500).json({ error: 'Server not configured' });
 
+  let content = article.trim();
+  const isUrl = /^https?:\/\//i.test(content);
+
+  if (isUrl) {
+    try {
+      const pageRes = await fetch(content, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+      const html = await pageRes.text();
+      content = html
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 12000);
+      if (!content) {
+        return res.status(400).json({ error: 'Could not extract text from that URL, paste the article text directly instead.' });
+      }
+    } catch (e) {
+      return res.status(400).json({ error: 'Could not fetch that URL, paste the article text directly instead.' });
+    }
+  }
+
   const analysisPrompt = `A user asked an AI assistant: "${question}"
 
 Here is a client's existing article/content on this exact topic:
 ---
-${article}
+${content}
 ---
 
 Compare this article against what a comprehensive, technically authoritative answer needs to cover for this specific question. Be blunt and specific. List:
@@ -29,7 +51,7 @@ Keep it concise and actionable, no fluff.`;
     });
     const data = await r.json();
     const msg = (data.choices && data.choices[0] && data.choices[0].message) || {};
-    res.status(200).json({ analysis: msg.content || '' });
+    res.status(200).json({ analysis: msg.content || '', fetched_url: isUrl });
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }
